@@ -2,19 +2,6 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 
-// build hour blocks in a for loop, setting a variable for the block array, the first hour, and the length of the array as hours. Also writes a variable and checks for AM or PM 
-
-
-// function displayText(blockID) {
-//   var fieldInput = document.getElementById('description-' + blockID);
-//   var description = localStorage.getItem(blockID);
-
-//   fieldInput.textContent = description;
-// }
-// blocks.forEach(function (block) {
-//   blockBody.appendChild(block);
-// });
-
 document.addEventListener('DOMContentLoaded', function () {
   // DONE
   // TODO: Add a listener for click events on the save button. This code should
@@ -24,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
+  //DONE
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
@@ -40,109 +28,100 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   var blockBody = document.getElementById('hourContainer');
-var blocks = [];
-var firstHour = 9;
-var hours = 9;
+  var blocks = [];
+  var firstHour = 9;
+  var hours = 9;
 
-// for loop to generate the hour blocks and the elements inside them, giving them the class name "hour- '(value of) currentHour'", and pushing them to the block array
-for (var i = 0; i < hours; i++) {
-  var currentHour = firstHour + i;
-  var amPM = currentHour < 12 ? 'AM' : 'PM';
+  // for loop to generate the hour blocks and the elements inside them, giving them the class name "hour- '(value of) currentHour'", and pushing them to the block array
+  for (var i = 0; i < hours; i++) {
+    var currentHour = firstHour + i;
+    var amPM = currentHour < 12 ? 'AM' : 'PM';
 
-  var hourBlock = document.createElement('div');
-  hourBlock.id = 'hour-' + currentHour;
-  hourBlock.classList.add('row', 'time-block');
+    var hourBlock = document.createElement('div');
+    hourBlock.id = 'hour-' + currentHour;
+    hourBlock.classList.add('row', 'time-block');
 
-  var blockTitle = document.createElement('div');
-  blockTitle.classList.add('col-2', 'col-md-1', 'hour', 'text-center', 'py-3');
-  blockTitle.textContent = (currentHour % 12 || 12) + amPM;
+    var blockTitle = document.createElement('div');
+    blockTitle.classList.add('col-2', 'col-md-1', 'hour', 'text-center', 'py-3');
+    blockTitle.textContent = (currentHour % 12 || 12) + amPM;
 
-  var textarea = document.createElement('textarea');
-  textarea.classList.add('col-8', 'col-md-10');
-  textarea.id = 'description-hour-' + currentHour;
-  textarea.rows = 3;
+    var textarea = document.createElement('textarea');
+    textarea.classList.add('col-8', 'col-md-10');
+    textarea.id = 'description-hour-' + currentHour;
+    textarea.rows = 3;
 
-  var saveBtn = document.createElement('button');
-  saveBtn.classList.add('btn', 'saveBtn', 'col-2', 'col-md-1');
-  saveBtn.setAttribute('aria-label', 'save');
+    var saveBtn = document.createElement('button');
+    saveBtn.classList.add('btn', 'saveBtn', 'col-2', 'col-md-1');
+    saveBtn.setAttribute('aria-label', 'save');
 
-  var saveIcon = document.createElement('i');
-  saveIcon.classList.add('fas', 'fa-save');
-  saveIcon.setAttribute('aria-hidden', 'true');
+    var saveIcon = document.createElement('i');
+    saveIcon.classList.add('fas', 'fa-save');
+    saveIcon.setAttribute('aria-hidden', 'true');
 
-  saveBtn.appendChild(saveIcon);
-  hourBlock.appendChild(blockTitle);
-  hourBlock.appendChild(textarea);
-  hourBlock.appendChild(saveBtn);
+    saveBtn.appendChild(saveIcon);
+    hourBlock.appendChild(blockTitle);
+    hourBlock.appendChild(textarea);
+    hourBlock.appendChild(saveBtn);
 
-  blockBody.appendChild(hourBlock);
+    blockBody.appendChild(hourBlock);
 
-  saveBtn.addEventListener("click", saveText);
+    saveBtn.addEventListener("click", saveText);
 
-  blocks.push(hourBlock);
+    blocks.push(hourBlock);
 
-  blocks.forEach(function (block) {
-    var blockID = block.id;
+    blocks.forEach(function (block) {
+      var blockID = block.id;
+      displayText(blockID);
+    })
+    checkTime();
+  }
+
+  function checkTime() {
+    var currentHour = dayjs().hour();
+    // var currentHour = dayjs().set('hour', 12).hour();
+
+    blocks.forEach(function (hourBlock) {
+      var blockHour = parseInt(hourBlock.id.split('-')[1]);
+
+      hourBlock.classList.remove('past', 'present', 'future');
+
+      if (blockHour < currentHour) {
+        hourBlock.classList.add('past');
+      } else if (blockHour === currentHour) {
+        hourBlock.classList.add('present');
+      } else {
+        hourBlock.classList.add('future');
+      }
+    });
+  }
+
+  setInterval(function () {
+    checkTime.call(this);
+  }, 60000);
+
+  function saveText() {
+    var description = this.parentNode.querySelector('textarea').value;
+    var blockID = this.parentNode.id;
+
+    localStorage.setItem(blockID, description);
+    document.getElementById('update').textContent = "Saved to localStorage";
+
+    textarea.value = "";
     displayText(blockID);
-  })
-}
+  }
 
-function saveText() {
-  var description = this.parentNode.querySelector('textarea').value;
-  var blockID = this.parentNode.id;
+  function displayText(blockID) {
+    var fieldInput = document.getElementById('description-' + blockID);
 
-  localStorage.setItem(blockID, description);
-  document.getElementById('update').textContent = "Saved to localStorage";
+    if (fieldInput) {
+      var description = localStorage.getItem(blockID);
+      fieldInput.textContent = description
+    }
+  }
 
-  textarea.value = "";
-  displayText(blockID);
-}
+  // Day.js to get the current time and set as a variable to check against
 
-function displayText(blockID) {
-  var fieldInput = document.getElementById('description-' + blockID);
-
-  // Check if the element exists before trying to set textContent
-  if (fieldInput) {
-    var description = localStorage.getItem(blockID);
-    fieldInput.textContent = description 
-}
-}
-
-  // var fieldInput = document.querySelector('#description');
-  // var saveBtn = document.querySelector('.saveBtn');
-
-  // saveBtn.addEventListener("click", saveText);
-
-  // timeBlock = [{hour: }]
-
-  // displayText();
-
-  // function saveText() {
-
-  //   var description = fieldInput.value;
-
-  //   localStorage.setItem("description", description);
-  //   document.getElementById('update').textContent = "Saved to localStorage";
-  //   displayText();
-  // }
-
-  // function displayText() {
-  //   var description = localStorage.getItem("description");
-
-  //   fieldInput.textContent = description;
-  // }
-
-  //button only works for 9am
-  //button needs to be able to distinguish between time zones
-  //make an array that can save information for any time, plug and play
-  //use index somehow
-  //add text to let user know the save button "saved to localStorage"
-  //data tracked by hour (ex "hour-9") and text
-
-  //this is listening on a whole class
+  var today = dayjs();
+  var element = document.getElementById('currentDay');
+  element.textContent = today.format('dddd, MMMM DD');
 });
-// Day.js to get the current time and set as a variable to check against
-
-var today = dayjs();
-var element = document.getElementById('currentDay');
-element.textContent = today.format('dddd, MMMM DD');

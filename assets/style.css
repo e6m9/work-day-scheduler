@@ -1,14 +1,30 @@
+:root {
+  --pri: teal;
+  --sec: lightblue;
+  --ter: purple;
+  --text: white;
+  --back: black;
+}
+
 body {
+  background-color: var(--back);
+  border: 6px solid var(--pri);
+  padding: 6px;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
+  color: var(--text)
+}
+
+header {
+  border-bottom: 6px solid var(--sec);
 }
 
 textarea {
   background: transparent;
   border: none;
   resize: none;
-  color: #000000;
-  border-left: 1px solid black;
+  color: var(--back);
+  border-left: 1px solid var(--back);
   padding: 10px;
 }
 
@@ -21,13 +37,14 @@ textarea {
 }
 
 .row {
-  border-top: 1px solid white;
+  border-top: 1px solid var(--pri);
 }
 
 .hour {
-  background-color: #ffffff;
-  color: #000000;
-  border-top: 1px dashed #000000;
+  background-color: var(--ter);
+  color: var(--text);
+  border-top: 2px dashed var(--sec);
+  border-left: 2px solid var(--sec);
 }
 
 .past {
@@ -46,11 +63,11 @@ textarea {
 }
 
 .saveBtn {
-  border-left: 1px solid black;
+  border-left: 1px solid var(--back);
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: #06aed5;
-  color: white;
+  background-color: var(--pri);
+  color: var(--text);
 }
 
 .saveBtn i:hover {
