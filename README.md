@@ -1,43 +1,15 @@
-# work-day-scheduler
-a work day scheduler built with third-party APIs
+# Workday Planner
 
+# Description
 
-# 05 Third-Party APIs: Work Day Scheduler
+An interactive workday planner made with 3rd Party APIs including Bootstrap and dayJS that saves your notes and keeps track of the current hour
 
-## Your Task
+# Usage
 
-Create a simple calendar application that allows a user to save events for each hour of a typical working day (9am&ndash;5pm) by modifying starter code. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
+To schedule a workday and make note of persistent events while keeping track of the time.
 
-You'll need to use the [Day.js](https://day.js.org/en/) library to work with date and time. Be sure to read the documentation carefully and concentrate on using Day.js in the browser.
+![the workday planner has the text, "hello", in the 9am block and, "I'm capable of saving notes for your workday", in the 12pm block while the text, "saved to localStorage" is displayed above the hour blocks](./assets/images/intro.png)
+![the text from the previous image remains with, "I even remember your notes after a refresh", added to the 10am block. "Saved to localStorage" is no longer displayed](./assets/images/refresh.png)
+!["I can even determine what time of day it is and display visual cues for past, present, and future hours" appears in the 1pm block which is green, while 12pm is red and 11, 10, and 9am are grey indicating that it is 12pm](./assets/images/timekeep.png)
 
-## User Story
-
-```md
-AS AN employee with a busy schedule
-I WANT to add important events to a daily planner
-SO THAT I can manage my time effectively
-```
-
-## Acceptance Criteria
-
-DONE
---GIVEN I am using a daily planner to create a schedule
---WHEN I open the planner
---THEN the current day is displayed at the top of the calendar
-
-WHEN I scroll down
-THEN I am presented with timeblocks for standard business hours of 9am&ndash;5pm
-
-WHEN I view the timeblocks for that day
-THEN each timeblock is color coded to indicate whether it is in the past, present, or future
-
-WHEN I click into a timeblock
-THEN I can enter an event
-
-WHEN I click the save button for that timeblock
-THEN the text for that event is saved in local storage
-
-WHEN I refresh the page
-THEN the saved events persist
-
-  * Uses a date utility library to work with date and time
+[link-to-site](https://e6m9.github.io/work-day-scheduler)
